@@ -1,0 +1,59 @@
+# 📉 Model Limitations: LoRA-Fine-Tuned OpenLLaMA 3B
+
+_Last updated: 2025-05-01_
+
+This document summarizes the known limitations of the LoRA-fine-tuned OpenLLaMA 3B model (v5) for assessing potato late blight risk in Huancavelica, Peru. It provides context for why a rule-based GPT assistant was developed in parallel.
+
+---
+
+## 🔻 1. Moderate-Risk Blind Spot
+- Frequently misclassified “Moderado” cases as either Low or High.
+- F1-score for Moderate class was low (0.25).
+- Lacked nuanced temporal awareness for transitional weather patterns.
+
+## 🔺 2. Overprediction of High Risk
+- Fine-tuning with more “Alto” samples boosted recall (1.00), but increased false positives.
+- May lead to overuse of fungicides in borderline conditions.
+
+## 🔸 3. Overreliance on Single Variables
+- Sometimes flagged risk due to a short humidity spike without considering duration or varietal modifiers.
+
+## 🔸 4. Small Evaluation Set
+- Accuracy (73%) was based on a 10-sample test set.
+- High performance on “Alto” may reflect overfitting or chance.
+
+## 🔸 5. Prompt Sensitivity
+- Outputs varied significantly with small changes in prompt phrasing.
+- Performance degraded on unstructured or implicit inputs.
+
+## 🔸 6. No Built-in Temporal Memory
+- Could not track multi-day weather trends unless explicitly described in the prompt.
+- Required phrasing like “humidity >80% for 2 days” to trigger proper classification.
+
+## 🔸 7. Fragile Training Environment
+- Required float32 casting post-LoRA application to avoid NaN losses.
+- Incompatible with some notebooks and bit-quantization setups unless carefully managed.
+
+---
+
+## ✅ Strategic Complementarity with GPT
+
+The rule-based GPT addresses these gaps by:
+- Applying validated heuristics consistently
+- Interpreting unstructured inputs more robustly
+- Avoiding GPU inference requirements
+- Explaining each decision with citations
+
+Planned Feature:
+- A `/run_lora_check` command will allow side-by-side comparison between GPT logic and LoRA predictions.
+- Disagreements will be flagged for expert review and may help refine future training.
+
+---
+
+## 🧪 Testing Outlook
+
+Both systems can be used in parallel:
+- GPT: primary decision tool in low-resource settings
+- LoRA: statistical cross-check in more structured, supervised deployments
+
+Field trials and extension worker feedback will help determine the optimal balance between the two.

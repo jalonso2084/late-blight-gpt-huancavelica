@@ -1,0 +1,25 @@
+version: v1.1
+---
+
+## 🔄 Planned Refinements (v1.2+)
+
+### 1. Modifier Logic Refinement
+- Expand “compound modifier” logic for borderline risk cases (e.g., marginal humidity + high elevation + no fungicide).
+- Explore a scoring matrix to help future maintainers assess interaction weights.
+
+### 2. Structured Input Templates
+- Provide prompt templates in both web and SMS contexts.
+- Add these examples to onboarding and user documentation to reduce input ambiguity.
+
+### 3. Confidence Scoring Enhancements
+- Extend confidence-lowering triggers (e.g., conflicting RH/temp, missing variety).
+- Develop macros to flag unusual seasonal combinations (e.g., RH > 90% with very low temperature).
+
+### 4. Outbreak Pattern Referencing
+- Train GPT to cite specific outbreak patterns from `calibration_history.md` when matching conditions arise.
+- e.g., “This matches the 2020 Lircay outbreak (RH >85%, 17°C, no fungicide)”
+
+### 5. User Feedback Loop Integration
+- Encourage users to rate outputs (e.g., `/rate_recommendation Good/Bad`)
+- Include optional feedback text: “What made this advice helpful/unhelpful?”
+- Plan lightweight backend to collect anonymized insights for retraining or rule calibration
