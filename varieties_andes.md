@@ -1,68 +1,36 @@
 # 🧬 Varietal Susceptibility to Late Blight in the Peruvian Andes
 
-_Last updated: 2025-05-01_
+This table combines regional field trials (CIP, INIA) and participatory‐selection data.  
+Use the **Susceptibility Index** column in rule logic:
 
-This file summarizes how key potato varieties behave under late blight pressure, with a focus on resistance levels by region. These insights are based on Peruvian field trials, participatory selection, and climate adaptation research.
+* **Index ≥ 4** → elevate risk by one level.  
+* **Index ≤ 2** → if weather risk is *Moderate*, downgrade to *Low* (unless RH > 90 % for > 2 days).
 
----
-
-## 🔹 Resistance Classification
-
-| Resistance Level | Description                                          |
-|------------------|------------------------------------------------------|
-| **High**         | Demonstrates strong resistance under most conditions |
-| **Moderate**     | Tolerates some pressure, risk increases with stress  |
-| **Low**          | Easily infected under typical humidity conditions    |
-
----
-
-## 🔹 Key Varieties
-
-### 1. **Amarilis**
-- **North**: Moderate to High resistance
-- **Central/South (e.g., Huancavelica, Ayacucho)**: Moderate to Low resistance
-- **Notes**: Performs poorly under prolonged humidity (>80%) in highland zones with persistent fog/cloud.
-
-### 2. **Yungay**
-- **All regions**: Low resistance
-- **Notes**: Susceptible to both early and late infection stages. Requires fungicide protection in all conditions.
-
-### 3. **Canchán**
-- **All regions**: Moderate resistance
-- **Notes**: Balanced performance but sensitive to poor drainage or extended canopy wetness.
-
-### 4. **UNICA**
-- **All regions**: High resistance
-- **Notes**: Developed for durable late blight resistance and climate resilience in Andean farming systems.
-
-### 5. **INIA 303 - Kawsay**
-- **All regions**: High resistance
-- **Notes**: Recently released. Strong resilience to Phytophthora infestans and temperature variation.
+| Variety (common name) | Official name / clone | Region notes | Qualitative resistance | **Susceptibility Index (1-5)** |
+|-----------------------|-----------------------|--------------|------------------------|--------------------------------|
+| **Amarilis** | INIA-302 | North: Mod–High • Central/South (e.g. Huancavelica): Mod–Low | Moderate → Low | **4** |
+| **Yungay** | —— | All regions | Low | **5** |
+| **Canchán** | INIA-303 | All regions | Moderate | **3** |
+| **UNICA** | CIP 392127.160 | All regions | High | **1** |
+| **Kawsay** | INIA-321 | All regions | High | **1** |
+| **Matilde** | CIP Matilde | Central Andes trials | Moderate (good under low humidity) | **3** |
 
 ---
 
-## 🔹 Regional Modifiers
-
-- Resistance varies not only by genetics but by **elevation, slope, fog exposure**, and local microclimates.
-- Varieties like **Amarilis** may behave as resistant in northern zones but become vulnerable in southern highland valleys with longer wet cycles.
-
----
-
-## 🔹 Usage in Risk Assessment
-
-- **Low-resistance varieties** elevate the assessed risk level by one class if baseline is Low or borderline Moderate.
-- **High-resistance varieties** may neutralize a Moderate risk down to Low if other conditions are marginal.
-- When in doubt, apply **"highest risk wins"** logic if varietal weakness coincides with wet, warm patterns.
-
-- The assistant may return:
-```
-Confidence: Low  
-Reason: No variety specified. Please indicate the potato variety planted.
-```
+## 🔹 Regional considerations
+* Elevation and persistent cloud cover can shift Amarilis from *Moderate* to *Low* resistance in Huancavelica.  
+* Farmer field schools confirm that local experience often matches these ratings.
 
 ---
 
-Sources:
-- Gastelo et al. (2021, 2025)
-- Identification of Elite Potato Clones (2023)
-- Saffer et al. (2024)
+## 🔹 Usage in risk assessment
+* If **Susceptibility Index ≥ 4** during **high-risk weather**, bump risk one class.  
+* **Index 1–2** can neutralise a *Moderate* assessment when RH ≤ 80 % and precipitation ≤ 10 mm.
+
+---
+
+**Sources**
+
+* Gastelo et al. (2021, 2025)  
+* “Identification of Elite Potato Clones for Late-Blight Resistance” (2023)  
+* Saffer et al. (2024)
