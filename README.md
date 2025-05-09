@@ -1,73 +1,98 @@
 # Late Blight Risk Advisor – Huancavelica (Custom GPT)
 
-This repository contains the configuration files, rules, prompts, and documentation for a custom GPT assistant designed to support rural potato farmers in Huancavelica, Peru. The assistant estimates late blight risk using local agronomic heuristics and weather-sensitive logic.
+This repository contains the full configuration, rule files, prompt examples, and documentation used to build the **Late Blight Risk Advisor – Huancavelica**, a technician-mediated GPT designed to assess potato late blight risk in the Peruvian highlands.
 
-> Built using OpenAI’s GPT Builder and designed for low-connectivity, technician-mediated workflows.
+> Powered by OpenAI’s GPT Builder. Grounded in regional agronomic logic. Designed for low-connectivity environments.
 
 ---
 
 ## 🌱 Project Summary
 
-- **Purpose**: Deliver expert-informed disease risk assessments in low-resource rural settings.
-- **Use Case**: Farmers provide data to trained technicians, who query the GPT online, cache the response, and deliver it offline.
-- **Focus Region**: Huancavelica, Peru (targeting potato varieties like Yungay and Amarilis)
-- **Disease**: *Phytophthora infestans* (late blight)
+- **Goal**: Deliver explainable, localized disease risk assessments to farmers in Huancavelica, Peru.
+- **Deployment Model**: Trained technicians collect field data offline → query GPT online → deliver stored advice offline.
+- **Target Pathogen**: *Phytophthora infestans* (late blight)
+- **Crops Covered**: Local potato varieties (e.g., Yungay, Amarilis)
+- **Language Support**: Spanish, English, and bilingual response logic
 
 ---
 
-## 🧠 What’s Inside
+## 🔁 Workflow Overview
 
-| Folder/File               | Description |
-|---------------------------|-------------|
-| `rules_late_blight.md`    | Agronomic rules used by the GPT |
-| `varieties_andes.csv`     | Resistance profiles for Andean potato cultivars |
-| `readme_gpt_setup.md`     | Setup guide for GPT Builder users |
-| `calibration_history.md`  | Log of field validation and debugging iterations |
-| `model_limitations.txt`   | Known boundaries and disclaimers |
-| `roadmap.md`              | Future development plans |
-| `Custom_GPT_Agriculture.md` | Full article describing the case study and methodology |
+**Farmer observes field** → **Technician collects data (offline)** →  
+**Inputs info into GPT (online)** → **Caches result** →  
+**Delivers advice back to the farm (offline)**
 
 ---
 
-## ⚙️ Usage
+## 🧠 Files Included
 
-This GPT is deployed via OpenAI’s GPT Builder. To replicate or adapt it:
-
-1. Prepare a structured prompt using bilingual inputs
-2. Load `rules_late_blight.md` into the system prompt or knowledge base
-3. Add examples from `examples_benchmark.md` if applicable
-4. Guide technicians to cache and deliver responses as outlined in `readme_gpt_setup.md`
-
----
-
-## 📊 Field Performance
-
-- **85% agreement** with agronomist labels in pilot testing
-- Technician workflow designed for **<24h cached validity**
-- Compatible with rural deployment on low-end devices
+| File | Description |
+|------|-------------|
+| `rules_late_blight.md` | Logic rules based on humidity, temperature, rainfall, variety, and fungicide use |
+| `varieties_andes.md` | Zone-specific resistance notes for common potato cultivars |
+| `examples.benchmark.md` | Prompt-aligned test cases used for tuning and QA |
+| `readme_gpt_setup.md` | Setup instructions, system prompt, response template, and usage policy |
+| `calibration_history.md` | Risk threshold calibration based on real outbreak data (2018–2024) |
+| `model_limitations.txt` | Known issues in prior LoRA classifier models and why this GPT was built |
+| `roadmap.txt` | Planned improvements and modular extensions |
+| `Custom_GPT_Agriculture.md` | Full technical article describing the rationale, build process, and impact |
 
 ---
 
-## 🔄 Adaptation
+## 📊 Evaluation & Accuracy
 
-This framework can be adapted to:
-- Other crops (e.g., maize, wheat)
-- Other regions (with localized varieties and rules)
-- Other languages (via bilingual prompts)
+After rule refinement, the GPT now aligns with expert-labeled scenarios in **8 out of 9 test cases** (≈ 89% agreement) from Huancavelica.
+
+- Key improvements: added rainfall thresholds, clarified borderline humidity rules, updated varietal susceptibility
+- Evaluation based on blind testing of final risk label (Low / Moderate / High)
+- Results may vary outside the tested region or season
+
+> Ongoing testing is underway to expand the benchmark set and validate across diverse planting dates.
+
+**Test it live** → [Late Blight Risk Advisor – Huancavelica (GPT)](https://chat.openai.com/g/g-68151466fca48191a953493191429b2e-late-blight-risk-advisor-huancavelica)
+
+> Requires a free or paid ChatGPT account (with GPT Builder access).
+
+---
+
+## 🔄 Adaptation & Reuse
+
+This GPT can be cloned and adapted for:
+
+- Other crops (e.g., maize, wheat, cassava)
+- Other diseases (e.g., rust, wilt, late leaf spot)
+- Other regions (with localized climate and varietal data)
+- Other languages (add logic in system prompt for multilingual or dialect-specific responses)
+
+All logic and benchmark data are modular and can be swapped via `rules_*.md`, `examples_*.md`, and `varieties_*.md` files.
+
+---
+
+## 🛠️ Limitations
+
+- Risk classifications are for decision support only — not formal diagnoses
+- Model depends on accurate user inputs (e.g., humidity source, variety name)
+- Prompt phrasing may impact outputs slightly
+- Confirm visible symptoms in the field and consult local agronomists before acting
 
 ---
 
 ## 👥 Acknowledgments
 
-This project draws on:
-- Agronomic expertise from field teams in Huancavelica
-- Climate-risk heuristics validated by Peruvian extension agents
-- Model tuning and evaluation supported by OpenLLaMA experiments
+This project was developed with support from:
+- Expert agronomists from Peru’s Sierra region
+- Prior model tuning experiments using OpenLLaMA + LoRA
 
 ---
 
 ## 📘 Citation
 
-If you use or reference this work, please cite:
+If you use or adapt this project, please cite:
 
-Alonso, J.L. (2025). Building Custom GPTs for Agriculture: Case Study of the Late Blight Risk Advisor in Huancavelica. GitHub Repository. https://github.com/jalonso2084/late-blight-gpt-huancavelica
+> Alonso, J.L. (2025). *Building Custom GPTs for Agriculture: Case Study of the Late Blight Risk Advisor in Huancavelica*. GitHub Repository. https://github.com/jalonso2084/late-blight-gpt-huancavelica
+
+---
+
+## 📫 Questions?
+
+Contact via GitHub or open an issue in this repository.
