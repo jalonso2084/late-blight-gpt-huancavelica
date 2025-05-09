@@ -1,82 +1,85 @@
-version: v1.1
+version: v1.2  
 # 🌦️ Expert Rules for Late Blight Risk Estimation
 
-These agronomic rules were derived from expert consultations, Peruvian field studies, and late blight forecasting literature. They guide the Late Blight Risk Advisor GPT in assessing the likelihood of outbreaks based on environmental conditions and varietal susceptibility.
+These agronomic rules were derived from expert consultations, Peruvian field studies, and late-blight forecasting literature. They guide the Late Blight Risk Advisor GPT in assessing outbreak likelihood based on environment and varietal susceptibility.
 
 ---
 
-## 🔹 Core Risk Drivers
+## 🔹 Core Risk Drivers  
 
-### 1. **Humidity Thresholds**
-- If relative humidity is **above 80%** for extended periods, infection risk increases significantly.
-- **Sustained humidity** >80% for:
-  - **8+ hours in a day** → triggers **Moderate** risk.
-  - **2 or more consecutive days** → triggers **High** risk.
+### 1. **Humidity Thresholds**  
+- RH > 80 % for extended periods raises infection risk.  
+- **Sustained humidity** > 80 % for:  
+  - 8 + hours in a day → **Moderate** risk.  
+  - 2 + consecutive days → **High** risk.  
 
-### 2. **Temperature Interaction**
-- Late blight thrives when average daily temperatures are between **15°C and 18°C**.
-- Risk increases when **high humidity and suitable temperature occur together**.
-- Temperatures consistently **below 13°C** or **above 22°C** tend to reduce risk.
+★ **Sub-threshold clause** – If RH is **65–80 %** *and* (rainfall ≥ 10 mm in 24 h **or** canopy leaf-wetness ≥ 12 h) *and* temp 10–18 °C, elevate baseline one level (e.g., Low → Moderate).
 
-### 3. **Rainfall & Wetness**
-- Light to moderate rainfall promotes spore movement and canopy wetness.
-- Dry periods can offset high humidity conditions, reducing the risk.
+### 2. **Temperature Interaction**  
+- Optimal infection window: **15–18 °C**.  
+- Risk tapers below 13 °C or above 22 °C.
+
+### 3. **Rainfall & Wetness**  
+- Light/moderate rain spreads spores and keeps leaves wet.  
+★ **Rainfall modifier**  
+  - Precip ≥ 20 mm in 24 h **or** ≥ 30 mm cumulative over 3 days → elevate risk by **one level**.  
+- Prolonged dry breaks (> 48 h) can offset high humidity.
 
 ---
 
-## 🔹 Risk Classification Heuristics
+## 🔹 Risk Classification Heuristics  
 
 | Risk Level | Environmental Pattern |
-|------------|------------------------|
-| **Low**    | Humidity < 80% or brief spikes with dry recovery; temperature not optimal |
-| **Moderate** | Humidity > 80% for one full day with avg. temp 15–18°C |
-| **High**   | Humidity > 80% sustained for 2–3+ days, temp 15–18°C, or additional risk factors (susceptible variety, rain, no fungicide) |
+|------------|----------------------|
+| **Low** | RH < 80 % *or* brief spikes with dry recovery; temperature not optimal |
+| **Moderate** | RH > 80 % for 1 day *or* sub-threshold clause triggered |
+| **High** | RH > 80 % for ≥ 2 days & temp 15–18 °C **or** rainfall modifier **or** susceptible-variety + no fungicide |
 
 ---
 
-## 🔹 Modifiers and Precedence
+## 🔹 Modifiers and Precedence  
 
-- **Susceptible variety**: Elevate risk by one level *only if the environmental baseline is Low or borderline Moderate.*
-- **Fungicide use**: Lowers risk only if applied within 3–5 days of risk period onset.
-- **No fungicide during high-risk window**: Elevate risk level.
-- **High elevation (>3,200 m)** with cloud cover can sustain hidden humidity.
+### Variety-susceptibility index  
+| Index | Description | Examples* |
+|-------|-------------|-----------|
+| 1 | Highly resistant | CIP 308495.227 |
+| 2 | Moderately resistant | INIA-302 Amarilis (north) |
+| 3 | Intermediate | INIA-303 Canchan |
+| 4 | Moderately susceptible | INIA-321 Kawsay |
+| 5 | Highly susceptible | Yungay, Amarilis (central/south) |
 
-> 🧠 When combining modifiers, apply the **"highest risk wins"** logic.
+> *See `varieties_andes.csv` for full list.
 
-> If multiple moderate risk factors combine (e.g., marginal humidity, no fungicide, susceptible variety), elevate risk conservatively to Moderate or High.: if any factor pushes risk to High, report High unless contradicting evidence exists.
+Rules:  
+- **Index ≥ 4** → elevate baseline one level.  
+- **Index = 5** → elevate baseline two levels *if* any other risk factor is Moderate.
 
----
+### Fungicide timing  
+- Spray ≤ 5 days ago lowers risk one level.  
+- No spray during a High-risk window → elevate one level.
 
-## 🔹 Microclimate Checklist
+### High elevation (> 3 200 m) + cloud/fog  
+- Can sustain hidden humidity; treat RH reading as 5 % higher when elevation rule applies.
 
-To refine risk assessment in mountainous or valley zones, consider:
-- Persistence of **cloud or fog cover**
-- **Drainage quality** and soil saturation
-- Field location relative to slope (low spots hold moisture)
-- **Canopy closure** or density (increases wetness retention)
-
-These factors may intensify humidity effects even at moderate levels.
-
----
-
-## 🔹 Temporal Reminder
-
-GPT has no memory between user turns. **Always specify humidity duration** explicitly (e.g., “for 2 days”) to ensure correct risk classification.
+Apply **“highest risk wins.”**
 
 ---
 
-## 🔹 Calibration Note
-
-These rules were validated against outbreak reports from Huancavelica, Peru (2018–2024), using daily SENAMHI data and INIA field observations. Thresholds reflect expert consensus and can be revised as more outbreak data become available.
-
----
-
-## 🔹 Expert Notes
-
-- The most reliable outbreak indicator is **multi-day humidity >80% + temperature between 15–18°C**.
-- Risk may be underestimated if user omits humidity duration.
-- False positives may occur if only one risk factor is elevated.
+## 🔹 Microclimate Checklist  
+(unchanged)
 
 ---
 
-> 🧠 Confidence Warning: If RH > 90% and temperature < 13°C, this may indicate contradictory inputs. Flag as `Confidence: Low` and request clarification.
+## 🔹 Temporal Reminder  
+GPT has no memory between turns. **Always ask for humidity duration** if user omits it.
+
+---
+
+## 🔹 Calibration Note  
+Validated against Huancavelica outbreaks 2018-2024; thresholds updated April 2025.
+
+---
+
+## 🔹 Expert Notes  
+- Multi-day RH > 80 % + 15–18 °C remains the strongest predictor.  
+- Flag `Confidence: Low` if RH > 90 % while temp < 13 °C (possible data error).  
