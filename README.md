@@ -35,7 +35,6 @@ This repository contains the full configuration, rule files, prompt examples, an
 | `calibration_history.md` | Risk threshold calibration based on real outbreak data (2018–2024) |
 | `model_limitations.txt` | Known issues in prior LoRA classifier models and why this GPT was built |
 | `roadmap.txt` | Planned improvements and modular extensions |
-| `Custom_GPT_Agriculture.md` | Full technical article describing the rationale, build process, and impact |
 
 ---
 
