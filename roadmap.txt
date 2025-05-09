@@ -1,25 +1,45 @@
 version: v1.1
+Last updated: 2025-05-01
+
+# 🗺️ Roadmap: Late Blight Risk Advisor GPT
+
+This roadmap outlines current capabilities and future directions for improving agronomic advice and hybrid AI functionality.
+
 ---
 
-## 🔄 Planned Refinements (v1.2+)
+## ✅ Current Functionality (v1.1)
 
-### 1. Modifier Logic Refinement
-- Expand “compound modifier” logic for borderline risk cases (e.g., marginal humidity + high elevation + no fungicide).
-- Explore a scoring matrix to help future maintainers assess interaction weights.
+- Rule-based late blight risk assessment (Low / Moderate / High)
+- Regional varietal logic (e.g., Amarilis more susceptible in Central Andes)
+- Humidity + temperature + fungicide interaction logic
+- Confidence scoring system (High / Low)
+- Benchmark-guided examples for prompt alignment
+- Transparent calibration with known outbreak patterns (2018–2024)
 
-### 2. Structured Input Templates
-- Provide prompt templates in both web and SMS contexts.
-- Add these examples to onboarding and user documentation to reduce input ambiguity.
+---
 
-### 3. Confidence Scoring Enhancements
-- Extend confidence-lowering triggers (e.g., conflicting RH/temp, missing variety).
-- Develop macros to flag unusual seasonal combinations (e.g., RH > 90% with very low temperature).
+## 🔜 Planned Features
 
-### 4. Outbreak Pattern Referencing
-- Train GPT to cite specific outbreak patterns from `calibration_history.md` when matching conditions arise.
-- e.g., “This matches the 2020 Lircay outbreak (RH >85%, 17°C, no fungicide)”
+### 📡 1. LoRA Hybrid Integration
+- Add `/run_lora_check` route to cross-validate GPT risk estimate with LoRA model
+- If outputs disagree, return “conflict” flag to user
+- Helps uncover blind spots in either system
 
-### 5. User Feedback Loop Integration
-- Encourage users to rate outputs (e.g., `/rate_recommendation Good/Bad`)
-- Include optional feedback text: “What made this advice helpful/unhelpful?”
-- Plan lightweight backend to collect anonymized insights for retraining or rule calibration
+### 🧾 2. Calibration Reporting
+- Add option for users to request calibration context:
+  > “This resembles the 2020 Lircay outbreak”
+- Backed by calibration_history.md
+
+### 📲 3. SMS/USSD Fallback (Offline Mode)
+- Encode query as: `RH85/48h T17 Var:Yungay`
+- Return risk level + one-line explanation
+- Partner with field trial networks for testing
+
+### 📈 4. Feedback Loop
+- Ask users: “Was this advice helpful?”
+- Store optional responses with metadata (location, conditions)
+- Enables future semi-supervised learning
+
+### 🔒 5. Privacy & Consent
+- Add disclosure to README and SMS prompts:
+  > “Your inputs may be stored anonymously to improve recommendations.”
