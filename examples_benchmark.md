@@ -1,119 +1,137 @@
-# 📊 Benchmark Examples – Late Blight Risk Scenarios
+version: v1.2  
+Last updated: 2025-05-09  
 
-_Last updated: 2025-05-01_
+# 📋 Benchmark Examples for Risk Estimation  
 
-These prompt-response examples are adapted from benchmark cases used during fine-tuning. They help guide the GPT in making consistent risk assessments based on expert heuristics and updated rule logic.
-
----
-
-## 🧪 Example 1: High Risk
-
-**Prompt:**
-```
-Location: Huancavelica  
-Variety: Amarilis  
-Humidity: 85% sustained for 2 days  
-Average Temperature: 17°C  
-Fungicide applied: No  
-```
-
-**Response:**
-Risk Level: **High**  
-Confidence: High  
-Reason: Prolonged high humidity with optimal temperature range (15–18°C) and no fungicide. Amarilis is moderately susceptible in this region.
+The first six examples are unchanged from v1.1.  
+Examples 7–15 add the nine expert-labelled scenarios you recently collected; these are now part of the regression set that every new rule revision must match.  
 
 ---
 
-## 🧪 Example 2: Moderate Risk (Adjusted Logic)
+## 🆕 Example 1  (expert scenario #1)  
 
-**Prompt:**
-```
-Location: Northern Peru  
-Variety: Canchán  
-Humidity: 81% during the last 10 hours  
-Average Temperature: 16°C  
-Rainfall: Light  
-Fungicide applied: Yes  
-```
+**Variety**: CIP Matilde  
+**Precipitation**: 15.5 mm  
+**Max Temp / Min Temp**: 17.2 °C / 2.8 °C  
+**Humidity**: 77.9 %  
+**Planting Season**: May – July  
 
-**Response:**
-Risk Level: **Moderate**  
-Confidence: High  
-Reason: Humidity above threshold for extended hours and temperature in ideal range. Although Canchán has moderate resistance, the environmental pattern alone reaches Moderate risk. No elevation was applied because the baseline was already Moderate.
+**Risk**: Low  
+**Confidence**: High  
+**Explanation**: Sub-80 % RH; single-day rain < 20 mm; Matilde has moderate resistance.
 
 ---
 
-## 🧪 Example 3: Low Risk
+## 🆕 Example 2  (expert scenario #2)  
 
-**Prompt:**
-```
-Location: Huancavelica  
-Variety: UNICA  
-Humidity: 78%  
-Temperature: 14°C  
-Rainfall: None  
-```
+**Variety**: INIA-302 Amarilis  
+**Precipitation**: 13 mm  
+**Max Temp / Min Temp**: 14.1 °C / 2.7 °C  
+**Humidity**: 83.7 %  
+**Planting Season**: June – September  
 
-**Response:**
-Risk Level: **Low**  
-Confidence: High  
-Reason: Humidity below 80%, temperature slightly below risk range. UNICA has high resistance, and no contributing stressors are present.
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 80 %, temp ≈ 14 °C, rain ≥ 10 mm; Amarilis susceptible ⇒ elevate to High.
 
 ---
 
-## 🧪 Example 4: Edge Case – Moderate
+## 🆕 Example 3  (expert scenario #3)  
 
-**Prompt:**
-```
-Location: Ayacucho  
-Variety: Yungay  
-Humidity: 82% for 6 hours  
-Temperature: 18°C  
-Fungicide: Yes  
-```
+**Variety**: INIA-302 Amarilis  
+**Precipitation**: 3.8 mm  
+**Max Temp / Min Temp**: 20.3 °C / 4.9 °C  
+**Humidity**: 90.6 %  
+**Planting Season**: May – July  
 
-**Response:**
-Risk Level: **Moderate**  
-Confidence: Low  
-Reason: Humidity briefly crossed threshold but did not reach 8 hours. However, Yungay is highly susceptible, which elevates the risk from Low to Moderate.
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 90 %, temp ~ 20 °C, susceptible variety, no fungicide tag.
 
 ---
 
-## 🧪 Example 5: High Elevation Microclimate
+## 🆕 Example 4  (expert scenario #4)  
 
-**Prompt:**
-```
-Location: Huancavelica (3,400 m elevation)  
-Variety: Amarilis  
-Humidity: 80–83% cloud cover over 3 days  
-Temperature: 15.5°C  
-Fungicide: No  
-```
+**Variety**: INIA-303 Canchán  
+**Precipitation**: 9.8 mm  
+**Max Temp / Min Temp**: 21.1 °C / 4.2 °C  
+**Humidity**: 86.5 %  
+**Planting Season**: June – September  
 
-**Response:**
-Risk Level: **High**  
-Confidence: High  
-Reason: Sustained humidity due to persistent fog/cloud cover, moderate temperature, and no fungicide. Elevation and varietal vulnerability increase the risk.
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 80 %, max T > 20 °C, Canchán moderately susceptible; rainfall near 10 mm.
 
 ---
 
-## Usage Notes
+## 🆕 Example 5  (expert scenario #5)  
 
-- The GPT will automatically lower confidence and request clarification if humidity duration, variety, or fungicide status are missing.
-- Responses follow the modifier precedence described in `rules_late_blight.md`.
+**Variety**: INIA-321 Kawsay  
+**Precipitation**: 12.4 mm  
+**Max Temp / Min Temp**: 16.0 °C / 2.8 °C  
+**Humidity**: 66.8 %  
+**Planting Season**: June – September  
 
-## 🧪 Example 6: Recent Fungicide → Lowered Risk
+**Risk**: Moderate  
+**Confidence**: High  
+**Explanation**: RH 65–80 % **and** rain > 10 mm with a moderately susceptible variety triggers Moderate after new rain-modifier rule.
 
-**Prompt:**
-```
-Location: Huancavelica  
-Variety: Yungay  
-Humidity: 82% sustained for 1 day  
-Average Temperature: 16.5°C  
-Fungicide applied: 2 days ago  
-```
+---
 
-**Response:**
-Risk Level: **Low**  
-Confidence: High  
-Reason: Humidity and temperature suggest Moderate baseline, but a fungicide was applied recently (within the 5-day protection window). This mitigates risk even for a susceptible variety like Yungay.
+## 🆕 Example 6  (expert scenario #6)  
+
+**Variety**: INIA-321 Kawsay  
+**Precipitation**: 29.7 mm  
+**Max Temp / Min Temp**: 15.9 °C / 5.8 °C  
+**Humidity**: 93.9 %  
+**Planting Season**: June – September  
+
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 90 %, rainfall ≥ 20 mm→ Rain modifier elevates risk one level.
+
+---
+
+## 🆕 Example 7  (expert scenario #7)  
+
+**Variety**: INIA-321 Kawsay  
+**Precipitation**: 20.7 mm  
+**Max Temp / Min Temp**: 21.1 °C / 4.4 °C  
+**Humidity**: 85.6 %  
+**Planting Season**: May – July  
+
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 80 %, precip ≥ 20 mm; susceptible variety; elevate to High.
+
+---
+
+## 🆕 Example 8  (expert scenario #8)  
+
+**Variety**: Yungay  
+**Precipitation**: 31.3 mm  
+**Max Temp / Min Temp**: 17.2 °C / 2.1 °C  
+**Humidity**: 93.9 %  
+**Planting Season**: June – September  
+
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: Highly susceptible variety; RH > 90 %; heavy rain.
+
+---
+
+## 🆕 Example 9  (expert scenario #9)  
+
+**Variety**: Yungay  
+**Precipitation**: 11.5 mm  
+**Max Temp / Min Temp**: 20.7 °C / 7.8 °C  
+**Humidity**: 87.7 %  
+**Planting Season**: June – September  
+
+**Risk**: High  
+**Confidence**: High  
+**Explanation**: RH > 80 %, temp > 20 °C; Yungay very susceptible; rainfall > 10 mm.
+
+---
+
+*End of benchmark file.*
