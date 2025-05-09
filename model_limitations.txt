@@ -1,59 +1,34 @@
-# 📉 Model Limitations: LoRA-Fine-Tuned OpenLLaMA 3B
+version: v1.1
+Last updated: 2025-05-01
 
-_Last updated: 2025-05-01_
+# ⚠️ Limitations of the LoRA Fine-Tuned Model (OpenLLaMA 3B)
 
-This document summarizes the known limitations of the LoRA-fine-tuned OpenLLaMA 3B model (v5) for assessing potato late blight risk in Huancavelica, Peru. It provides context for why a rule-based GPT assistant was developed in parallel.
-
----
-
-## 🔻 1. Moderate-Risk Blind Spot
-- Frequently misclassified “Moderado” cases as either Low or High.
-- F1-score for Moderate class was low (0.25).
-- Lacked nuanced temporal awareness for transitional weather patterns.
-
-## 🔺 2. Overprediction of High Risk
-- Fine-tuning with more “Alto” samples boosted recall (1.00), but increased false positives.
-- May lead to overuse of fungicides in borderline conditions.
-
-## 🔸 3. Overreliance on Single Variables
-- Sometimes flagged risk due to a short humidity spike without considering duration or varietal modifiers.
-
-## 🔸 4. Small Evaluation Set
-- Accuracy (73%) was based on a 10-sample test set.
-- High performance on “Alto” may reflect overfitting or chance.
-
-## 🔸 5. Prompt Sensitivity
-- Outputs varied significantly with small changes in prompt phrasing.
-- Performance degraded on unstructured or implicit inputs.
-
-## 🔸 6. No Built-in Temporal Memory
-- Could not track multi-day weather trends unless explicitly described in the prompt.
-- Required phrasing like “humidity >80% for 2 days” to trigger proper classification.
-
-## 🔸 7. Fragile Training Environment
-- Required float32 casting post-LoRA application to avoid NaN losses.
-- Incompatible with some notebooks and bit-quantization setups unless carefully managed.
+This file summarizes known blind spots and challenges from testing the LoRA-fine-tuned version of the OpenLLaMA 3B model on structured prompts for late blight risk classification.
 
 ---
 
-## ✅ Strategic Complementarity with GPT
+## 🚫 Known Issues
 
-The rule-based GPT addresses these gaps by:
-- Applying validated heuristics consistently
-- Interpreting unstructured inputs more robustly
-- Avoiding GPU inference requirements
-- Explaining each decision with citations
+### 1. Moderate-Class Confusion
+- The model struggles to identify borderline "Moderado" cases.
+- Often classifies them as either Low or High depending on temperature more than RH duration.
 
-Planned Feature:
-- A `/run_lora_check` command will allow side-by-side comparison between GPT logic and LoRA predictions.
-- Disagreements will be flagged for expert review and may help refine future training.
+### 2. Prompt Sensitivity
+- The output shifts depending on small wording changes (e.g., “high humidity” vs. “85% humidity”).
+- Structured prompts with `Riesgo: <mask>` improved performance but remain sensitive.
+
+### 3. Overconfidence
+- Frequently returns one dominant class, often "Bajo," even when inputs are ambiguous.
+- Confidence scores are not explicitly expressed by the model.
+
+### 4. RH Duration Handling
+- RH is treated as binary (above or below threshold), but the model doesn’t assess multi-day sequences well.
+- Cannot distinguish “82% for 6h” from “82% for 2 days” without very specific phrasing.
 
 ---
 
-## 🧪 Testing Outlook
+## 🤖 Model Role in the Current GPT
 
-Both systems can be used in parallel:
-- GPT: primary decision tool in low-resource settings
-- LoRA: statistical cross-check in more structured, supervised deployments
-
-Field trials and extension worker feedback will help determine the optimal balance between the two.
+- The LoRA model is **not actively used inside this GPT**.
+- This GPT applies expert rules from `rules_late_blight.md` instead.
+- However, the limitations above justify building a hybrid fallback system where both models cross-validate.
